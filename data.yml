@@ -4,6 +4,11 @@ locations:
   SRC:
     mappingDefinitions:
       "2":
+        database: DEV_EVAN_V_5_2
+        schema: QA_STAGING
+  THREE:
+    mappingDefinitions:
+      "2":
         database: COALESCE_SAMPLE_DATABASE
         schema: TPCH_SF001
   TWO:
