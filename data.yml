@@ -144,6 +144,17 @@ stepTypes:
             {% endif %}
         run:
           templateString: |
+            {% if node.materializationType == 'table' %}
+                    {% if config.warehouse %}
+                            {{stage('Use Warehouse')}}
+                            use warehouse "{{config.warehouse}}"
+                    {% endif %}
+                    {% if config.preSQL %}
+                            {{ stage('Pre-SQL') }}
+                            {{ config.preSQL }}
+                    {% endif %}
+            {% endif %}
+
             {% for test in node.tests if config.testsEnabled %}
                     {% if test.runOrder == 'Before' %}
                         {{ test_stage(test.name, test.continueOnFailure) }}
@@ -228,18 +239,53 @@ stepTypes:
             		{% endfor %}
             	{% endfor %}
             {% endif %}
-
-            {% if node.materializationType == 'table' %}
-                    {% if config.warehouse %}
-                            {{stage('Use Warehouse')}}
-                            use warehouse "{{config.warehouse}}"
-                    {% endif %}
-                    {% if config.preSQL %}
-                            {{ stage('Pre-SQL') }}
-                            {{ config.preSQL }}
-                    {% endif %}
-            {% endif %}
     name: Warehouse Stage
+    version: 1
+  StepType-2:
+    id: "2"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: null
+      error: null
+      nodeMetadataSpec: |-
+        capitalized: New Type
+        short: NEW
+        tagColor: gray
+        plural: New Types
+        deployStrategy: advanced
+      templates:
+        create:
+          templateString: |-
+            -- if desiredState is truthy and currentState is undefined
+            {% if desiredState and currentState == undefined%}
+                {{ stage('CREATE NODE') }}
+                    SELECT 1
+
+            -- if desiredState is undefined and currentState is truthy
+            {% elif currentState and desiredState == undefined%}
+            	{{ stage('DELETE NODE') }}
+                    SELECT 1
+
+            -- if desiredState and currentState are both truthy
+            {% elif currentState and desiredState %}
+                {{ stage('EDIT NODE') }}
+                    SELECT 1
+                {% if changesDetected %}
+                    {{ stage('CHANGES DETECTED') }}
+                        SELECT 1
+                {% else %}
+                    {{ stage('NO CHANGES') }}
+                        SELECT 1
+                {% endif %}
+
+            -- if desiredState and currentState are both undefined then something is not right
+            {% else %}
+            	{{ stage('SOMETHING IS WRONG') }}
+                    SELECT 1
+            {% endif %}
+        run:
+          templateString: ""
+    name: New Type
     version: 1
   StepType-Dimension:
     id: Dimension

@@ -1,12 +1,7 @@
 steps:
-  STG_REGION111111-117:
+  NEW_TRANSFORMING_WH-118:
     operation:
-      config:
-        insertStrategy: INSERT
-        postSQL: ""
-        preSQL: ""
-        testsEnabled: true
-        truncateBefore: true
+      config: {}
       database: ""
       dependencies: []
       deployEnabled: true
@@ -20,8 +15,8 @@ steps:
         appliedNodeTests: []
         columns:
           - columnReference:
-              columnCounter: 1386
-              stepCounter: "117"
+              columnCounter: 1526
+              stepCounter: "118"
             dataType: NUMBER(38,0)
             description: ""
             hashColumns: []
@@ -30,12 +25,12 @@ steps:
             nullable: false
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 428
-                    stepCounter: "42"
+                  - columnCounter: 512
+                    stepCounter: "54"
                 transform: ""
           - columnReference:
-              columnCounter: 1387
-              stepCounter: "117"
+              columnCounter: 1527
+              stepCounter: "118"
             dataType: VARCHAR(25)
             description: ""
             hashColumns: []
@@ -44,12 +39,12 @@ steps:
             nullable: false
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 429
-                    stepCounter: "42"
+                  - columnCounter: 513
+                    stepCounter: "54"
                 transform: ""
           - columnReference:
-              columnCounter: 1388
-              stepCounter: "117"
+              columnCounter: 1528
+              stepCounter: "118"
             dataType: VARCHAR(152)
             description: ""
             hashColumns: []
@@ -58,8 +53,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 430
-                    stepCounter: "42"
+                  - columnCounter: 514
+                    stepCounter: "54"
                 transform: ""
         cteString: ""
         enabledColumnTestIDs: []
@@ -67,15 +62,15 @@ steps:
           - customSQL:
               customSQL: ""
             dependencies:
-              - locationName: THREE
-                nodeName: REGION
+              - locationName: SRC
+                nodeName: TRANSFORMING_WH
             join:
-              joinCondition: FROM {{ ref('THREE', 'REGION') }} "REGION"
-            name: STG_REGION111111
+              joinCondition: FROM {{ ref('SRC', 'TRANSFORMING_WH') }} "TRANSFORMING_WH"
+            name: NEW_TRANSFORMING_WH
             noLinkRefs: []
-      name: STG_REGION111111
+      name: NEW_TRANSFORMING_WH
       overrideSQL: false
       schema: ""
-      sqlType: Stage
+      sqlType: "2"
       type: sql
-    stepCounter: "117"
+    stepCounter: "118"
